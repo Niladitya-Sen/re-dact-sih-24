@@ -7,7 +7,7 @@ import codecs
 
 nlp = spacy.load("en_core_web_trf")
 
-pdf_path = f"{os.path.dirname(__file__)}/pdf/test.pdf"
+pdf_path = f"{os.path.dirname(__file__)}/pdf/test1.pdf"
 
 images = convert_from_path(pdf_path)
 
@@ -24,6 +24,8 @@ for page_number, page in enumerate(images):
 doc = nlp(text)
 
 redacted_text = text
+
+l = []
 
 for entity in doc.ents:
     if entity.label_ in [
@@ -42,7 +44,9 @@ for entity in doc.ents:
         "ACCOUNT_NUMBER",
     ]:
         redacted_text = redacted_text.replace(entity.text, "█" * len(entity.text))
+        l.append(entity.text)
 
 with codecs.open(f"{os.path.dirname(__file__)}/output.txt", "w", encoding="utf-8") as file:
     file.write(redacted_text)
 
+print(l)
