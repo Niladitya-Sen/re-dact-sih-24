@@ -2,17 +2,19 @@
 
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { Switch } from './ui/switch';
+import dynamic from 'next/dynamic';
 
+const Document = dynamic(() => import('react-pdf').then(module => module.Document), { ssr: false });
+const Page = dynamic(() => import('react-pdf').then(module => module.Page), { ssr: false });
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.mjs',
     import.meta.url,
 ).toString();
-// Rest of code.
 
 export default function PDFViewer() {
     const [numPages, setNumPages] = useState(0);
