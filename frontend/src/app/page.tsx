@@ -21,7 +21,7 @@ export default function Home() {
                     setLoading(true);
                     try {
                         const formData = new FormData(e.currentTarget);
-                        const response = await fetch('http://localhost:5000/redact', {
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/redact`, {
                             method: 'POST',
                             body: formData
                         });
