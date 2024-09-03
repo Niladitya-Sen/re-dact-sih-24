@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
+import { setImage } from "@/redux/features/image/imageSlice";
 import { setPdf } from "@/redux/features/pdf/pdfSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [file, setFile] = useState<File>();
 
     return (
         <main className="flex items-center justify-center h-screen">
@@ -20,18 +22,27 @@ export default function Home() {
                     e.preventDefault();
                     setLoading(true);
                     try {
-                        const formData = new FormData(e.currentTarget);
-                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/redact`, {
-                            method: 'POST',
-                            body: formData
-                        });
-                        const data = await response.json();
-                        console.log(data);
-                        dispatch(setPdf({
-                            preview: data.preview,
-                            redacted: data.redacted
-                        }));
-                        router.push('/redact');
+                        switch (file?.type) {
+                            case "application/pdf":
+                                dispatch(setPdf({
+                                    pdf: file
+                                }));
+                                router.push('/pdf');
+                                break;
+                            
+                            case "image/jpeg":
+                            case "image/png":
+                                dispatch(setImage({
+                                    image: file
+                                }));
+                                router.push('/image');
+                                break;
+
+                            default:
+                                alert("Invalid file type");
+                                break;
+                        }
+
                     } catch (error) {
                         console.error(error);
                     } finally {
@@ -39,8 +50,12 @@ export default function Home() {
                     }
                 }}>
                 <h1 className="text-2xl font-semibold">Upload</h1>
-                <Input type="file" accept="application/pdf" name="pdf" />
-                <Button disabled={loading} type="submit" className="w-fit">
+                <Input type="file" accept="application/pdf, image/jpeg, image/png" name="pdf" onChange={(e) => {
+                    if (!e.target.files) return;
+
+                    setFile(e.target.files[0]);
+                }} />
+                <Button disabled={loading} type="submit" className="w-fit gap-2">
                     {
                         loading && <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="white" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.25" />
@@ -49,7 +64,7 @@ export default function Home() {
                             </path>
                         </svg>
                     }
-                    <span className="ml-2">Upload</span>
+                    <span>Upload</span>
                 </Button>
             </form>
         </main>

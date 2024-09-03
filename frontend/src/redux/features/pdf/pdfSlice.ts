@@ -2,8 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 // Define a type for the slice state
 type PDFState =  {
-    preview?: string;
-    redacted?: string;
+    pdf?: File
 };
 
 // Define the initial state using that type
