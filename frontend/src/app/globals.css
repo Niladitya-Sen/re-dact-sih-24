@@ -68,12 +68,16 @@
   }
 }
 
-.preview {
-  @apply bg-primary/40 rounded-sm text-transparent border border-primary -ml-[1px];
+.preview:not(.hidden) {
+  @apply bg-primary/40 rounded text-transparent border border-primary -ml-[1px];
 }
 
-.redacted {
+.redacted:not(.hidden) {
   @apply bg-black select-none text-black;
+}
+
+.sidebar-link-active {
+  @apply bg-[#F8EFFF] text-[#8f2af6];
 }
 
 @keyframes dashboardbgAnimation {

@@ -1,9 +1,9 @@
+import AIRedactDialog from '@/components/dashboard/ai-redact-dialog';
 import RedactionJourney from '@/components/dashboard/redaction-journey';
 import Sidebar from '@/components/dashboard/sidebar';
-import Image from 'next/image';
+import { BsStars } from "react-icons/bs";
 import { IoMdAddCircle } from "react-icons/io";
-import dashboardbg from '../../../public/assets/images/dashboard-bg.png';
-import AIRedactDialog from '@/components/dashboard/ai-redact-dialog';
+import dashboardbg from '../../../public/assets/images/dashboard-bg.jpg';
 
 export default function Dashboard() {
     return (
@@ -21,7 +21,7 @@ export default function Dashboard() {
                         className='bg-[linear-gradient(91.77deg,_#A319DA_1.07%,_#8A2DFC_99.2%)] text-white p-4 rounded-lg flex items-center justify-between gap-4 max-w-sm w-full cursor-pointer'
                     >
                         <div className='flex flex-col gap-1'>
-                            <p>Create a new Project</p>
+                            <p className='font-[500]'>Create a new Project</p>
                             <p className='text-xs'>Start Redaction from Scratch</p>
                         </div>
                         <IoMdAddCircle size={30} />
@@ -32,15 +32,10 @@ export default function Dashboard() {
                                 className='bg-[linear-gradient(91.77deg,_#7512F0_1.07%,_#3C58F4_99.2%)] text-white p-4 rounded-lg flex items-center justify-between gap-4 max-w-sm w-full cursor-pointer'
                             >
                                 <div className='flex flex-col gap-1'>
-                                    <p>Smart AI Redaction</p>
+                                    <p className='font-[500]'>Smart AI Redaction</p>
                                     <p className='text-xs'>Smart Detection and Redaction</p>
                                 </div>
-                                <Image
-                                    src='/assets/images/ai.png'
-                                    width={25}
-                                    height={25}
-                                    alt='dashboard'
-                                />
+                                <BsStars size={35} />
                             </div>
                         }
                     />

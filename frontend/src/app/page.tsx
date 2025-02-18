@@ -1,20 +1,24 @@
-"use client"
+/* "use client"
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { setImage } from "@/redux/features/image/imageSlice";
 import { setPdf } from "@/redux/features/pdf/pdfSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { useState } from "react"; */
+
+import { redirect } from "next/navigation";
 
 export default function Home() {
-    const [loading, setLoading] = useState(false);
+    /* const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [file, setFile] = useState<File>();
+    const [file, setFile] = useState<File>(); */
 
-    return (
+    redirect('/dashboard');
+
+    /* return (
         <main className="flex items-center justify-center h-screen">
             <form
                 className="flex flex-col gap-4 max-w-screen-sm w-full items-center"
@@ -27,6 +31,7 @@ export default function Home() {
                                 dispatch(setPdf({
                                     pdf: file
                                 }));
+                               /*  router.push('/workspace');
                                 router.push('/pdf');
                                 break;
                             
@@ -68,5 +73,5 @@ export default function Home() {
                 </Button>
             </form>
         </main>
-    )
+    ) */
 }

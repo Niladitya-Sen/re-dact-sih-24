@@ -3,6 +3,10 @@ import StoreProvider from "@/redux/store/StoreProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import FilesContextProvider from "@/components/context/FilesContext";
+import RedactContextProvider from "@/components/context/RedactContext";
+import LoadingContextProvider from "@/components/context/LoadingContext";
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +22,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "w-screen min-h-screen h-screen")}>
-        <StoreProvider>{children}</StoreProvider>
+      <body className={cn(inter.className, "antialiased")}>
+        <NextTopLoader
+          color="#874bee"
+          showSpinner={false}
+          height={40}
+        />
+        <LoadingContextProvider>
+          <StoreProvider>
+            <FilesContextProvider>
+              <RedactContextProvider>
+                {children}
+              </RedactContextProvider>
+            </FilesContextProvider>
+          </StoreProvider>
+        </LoadingContextProvider>
       </body>
     </html>
   );

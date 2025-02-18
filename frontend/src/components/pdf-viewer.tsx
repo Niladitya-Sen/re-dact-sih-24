@@ -1,22 +1,21 @@
 "use client";
 
-import { Switch } from '@/components/ui/switch';
-import { cn } from '@/lib/utils';
-import { useAppSelector } from '@/redux/hooks/hooks';
-import dynamic from 'next/dynamic';
-import { PDFDocument, rgb } from 'pdf-lib';
-import { useEffect, useRef, useState } from 'react';
-import { pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
-import { Button } from './ui/button';
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Switch } from '@/components/ui/switch';
+import { cn } from '@/lib/utils';
+import { useAppSelector } from '@/redux/hooks/hooks';
 import { Trash2 } from 'lucide-react';
-
+import dynamic from 'next/dynamic';
+import { PDFDocument } from 'pdf-lib';
+import { useEffect, useRef, useState } from 'react';
+import { pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import { Button } from './ui/button';
 
 const Document = dynamic(() => import('react-pdf').then(module => module.Document), { ssr: false });
 const Page = dynamic(() => import('react-pdf').then(module => module.Page), { ssr: false });
@@ -82,7 +81,9 @@ export default function PDFViewer() {
         (async () => {
             if (pdf.pdf) {
                 const buffer = await pdf.pdf.arrayBuffer();
-                redactedDoc.current = await PDFDocument.load(buffer);
+                redactedDoc.current = await PDFDocument.load(buffer, {
+                    ignoreEncryption: true
+                });
             }
         })()
     }, [pdf.pdf]);
@@ -146,7 +147,7 @@ export default function PDFViewer() {
                             },
                             pdfBbox: {
                                 x,
-                                y,
+                                y: pageSize.height - y - height,
                                 width,
                                 height
                             }
@@ -193,10 +194,9 @@ export default function PDFViewer() {
                     },
                     pdfBbox: {
                         x: item.bbox.x,
-                        y: pageSize.height - item.bbox.y - item.bbox.height,
-                        width: item.bbox.width + 6,
+                        y: /* pageSize.height - */ item.bbox.y /* - item.bbox.height */,
+                        width: item.bbox.width,
                         height: item.bbox.height,
-                        color: rgb(0, 0, 0),
                     }
                 }
             }))]);
@@ -230,23 +230,21 @@ export default function PDFViewer() {
 
         try {
             setRedacting(true);
-            const buffer = await pdf.pdf.arrayBuffer();
-            const doc = await PDFDocument.load(buffer);
-            redactedWords.forEach(word => {
-                doc.getPages()[word.page].drawRectangle({
-                    x: word.pdfBbox.x,
-                    y: word.pdfBbox.y,
-                    width: word.pdfBbox.width,
-                    height: word.pdfBbox.height,
-                    color: rgb(0, 0, 0),
-                });
+
+            const formData = new FormData();
+            formData.append('pdf', pdf.pdf as Blob);
+            formData.append('words', JSON.stringify(redactedWords));
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/redact-pdf`, {
+                method: 'POST',
+                body: formData
             });
-            const pdfBytes = await doc.save();
-            const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-            const pdfUrl = URL.createObjectURL(pdfBlob);
-            window.open(pdfUrl);
-            URL.revokeObjectURL(pdfUrl);
-        } catch(error) {
+            const data = await response.json();
+            const base64 = data.pdf;
+            const buffer = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+            const url = URL.createObjectURL(new Blob([buffer], { type: 'application/pdf' }));
+            window.open(url);
+        } catch (error) {
             console.error(error);
         } finally {
             setRedacting(false);
