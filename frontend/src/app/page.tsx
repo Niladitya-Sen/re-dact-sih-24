@@ -11,14 +11,14 @@ import { useState } from "react"; */
 import { redirect } from "next/navigation";
 
 export default function Home() {
-    /* const [loading, setLoading] = useState(false);
+  /* const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [file, setFile] = useState<File>(); */
 
-    redirect('/dashboard');
+  redirect("/dashboard");
 
-    /* return (
+  /* return (
         <main className="flex items-center justify-center h-screen">
             <form
                 className="flex flex-col gap-4 max-w-screen-sm w-full items-center"

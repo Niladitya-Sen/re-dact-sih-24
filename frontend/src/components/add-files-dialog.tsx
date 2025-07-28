@@ -91,7 +91,7 @@ function DialogContent_() {
                             {
                                 file.type.includes('pdf') && (
                                     <Image
-                                        src="/assets/images/pdf.svg"
+                                        src="/redact/assets/images/pdf.svg"
                                         alt="file"
                                         width={80}
                                         height={80}
@@ -101,7 +101,7 @@ function DialogContent_() {
                             {
                                 file.type.includes('image') && (
                                     <Image
-                                        src="/assets/images/image-icon.png"
+                                        src="/redact/assets/images/image-icon.png"
                                         alt="file"
                                         width={80}
                                         height={80}
@@ -111,7 +111,7 @@ function DialogContent_() {
                             {
                                 file.type.includes('video') && (
                                     <Image
-                                        src="/assets/images/video-icon.png"
+                                        src="/redact/assets/images/video-icon.png"
                                         alt="file"
                                         width={80}
                                         height={80}
@@ -167,7 +167,7 @@ function DialogContent_() {
                             className={cn('flex-col gap-2 w-[90px] h-[90px] z-20')}
                         >
                             <Image
-                                src="/assets/images/googledrive.svg"
+                                src="/redact/assets/images/googledrive.svg"
                                 alt="google-drive"
                                 width={30}
                                 height={30}
@@ -180,7 +180,7 @@ function DialogContent_() {
                             className={cn('flex-col gap-2 w-[90px] h-[90px] z-20')}
                         >
                             <Image
-                                src="/assets/images/dropbox.svg"
+                                src="/redact/assets/images/dropbox.svg"
                                 alt="dropbox"
                                 width={30}
                                 height={30}
@@ -193,7 +193,7 @@ function DialogContent_() {
                             className={cn('flex-col gap-2 w-[90px] h-[90px] z-20')}
                         >
                             <Image
-                                src="/assets/images/onedrive.svg"
+                                src="/redact/assets/images/onedrive.svg"
                                 alt="onedrive"
                                 width={30}
                                 height={30}

@@ -299,7 +299,7 @@ export default function Workspace() {
             <nav className='flex items-center justify-between p-4 shadow-md z-30'>
                 <Link href='/dashboard'>
                     <Image
-                        src="/assets/images/logo-full.svg"
+                        src="/redact/assets/images/logo-full.svg"
                         alt="Logo"
                         width={200}
                         height={50}

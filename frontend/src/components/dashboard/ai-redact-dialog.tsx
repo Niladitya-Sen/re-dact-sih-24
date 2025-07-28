@@ -61,7 +61,7 @@ export default function AIRedactDialog({ trigger }: Readonly<{ trigger: React.Re
                         <RedactOption
                             title="Doc"
                             description="Ideal for redacting sensitive information from word documents, spreadsheets, and PDFs."
-                            icon="/assets/images/doc.png"
+                            icon="/redact/assets/images/doc.png"
                             onClick={() => {
                                 setRedactDialogOpen(false);
                                 setLevelDialogOpen(true);
@@ -71,7 +71,7 @@ export default function AIRedactDialog({ trigger }: Readonly<{ trigger: React.Re
                         <RedactOption
                             title="Image"
                             description="Perfect for redacting sensitive details from image files like .jpg, .png, and .svg etc. "
-                            icon="/assets/images/image.png"
+                            icon="/redact/assets/images/image.png"
                             onClick={() => {
                                 setRedactDialogOpen(false);
                                 files.setFileType('image/*');
@@ -81,7 +81,7 @@ export default function AIRedactDialog({ trigger }: Readonly<{ trigger: React.Re
                         <RedactOption
                             title="Video"
                             description="Enables redaction of confidential information within video files like .mp4, .mkv, and .mov etc."
-                            icon="/assets/images/video.png"
+                            icon="/redact/assets/images/video.png"
                             onClick={() => {
                                 setRedactDialogOpen(false);
                                 files.setFileType('video/*');
