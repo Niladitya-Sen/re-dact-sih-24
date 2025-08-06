@@ -3,14 +3,11 @@ import io
 import json
 import os
 import tempfile
-import zipfile
 
 import pyminizip
-import pyzipper
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from regex import E
 from services import document, image, video
 
 load_dotenv()
