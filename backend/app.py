@@ -120,4 +120,4 @@ def zip_files():
 
 
 if __name__ == "__main__":
-    app.run(debug=ENVIRONMENT == "development", port=5000)
+    app.run(debug=ENVIRONMENT == "development", port=PORT)
