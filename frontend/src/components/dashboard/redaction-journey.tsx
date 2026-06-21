@@ -20,7 +20,7 @@ export default function RedactionJourney() {
       <div className="flex flex-wrap gap-6 mt-8">
         <SelectRedactionCard
           title="Redact File"
-          image={"/redact/assets/images/redact-doc.svg"}
+          image={"/assets/images/redact-doc.svg"}
           description="Protect sensitive information in your documents by quickly redacting text and data"
           onClick={() => {
             files.setFileType("application/pdf");
@@ -30,21 +30,21 @@ export default function RedactionJourney() {
         />
         <SelectRedactionCard
           title="Redact Image"
-          image={"/redact/assets/images/redact-img.svg"}
+          image={"/assets/images/redact-img.svg"}
           description="Quickly blur identities and sensitive information in your images to protect privacy"
           onClick={() => {
             files.setFileType("image/*");
-            redact.setRedactionType("Manual");
+            redact.setRedactionType("AI");
             setOpen(true);
           }}
         />
         <SelectRedactionCard
           title="Redact Video"
-          image={"/redact/assets/images/redact-video.svg"}
+          image={"/assets/images/redact-video.svg"}
           description="Efficiently hide confidential content by redact specific scenes or details in your videos"
           onClick={() => {
             files.setFileType("video/*");
-            redact.setRedactionType("Manual");
+            redact.setRedactionType("AI");
             setOpen(true);
           }}
         />

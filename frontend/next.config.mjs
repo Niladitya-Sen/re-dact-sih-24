@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  basePath: "/redact",
-};
+const nextConfig = {};
 
 export default nextConfig;

@@ -26,7 +26,7 @@ export default function RootLayout({
         <NextTopLoader
           color="#874bee"
           showSpinner={false}
-          height={40}
+          height={10}
         />
         <LoadingContextProvider>
           <StoreProvider>

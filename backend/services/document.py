@@ -5,9 +5,8 @@ import re
 import ocrmypdf
 import pymupdf
 import spacy
-import fitz
 
-nlp = spacy.load("en_core_web_trf")
+nlp = spacy.load("en_core_web_sm")
 
 # Define regex patterns for custom categories
 email_pattern = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b")
@@ -24,7 +23,7 @@ alphanumeric_pattern = re.compile(
 
 
 # Custom categories for redaction
-custom_categories = {
+custom_categories = { 
     "Names": ["PERSON"],
     "Credentials": [
         "Aadhaar Numbers",
@@ -383,11 +382,11 @@ def redact_pdf(pdf_file, words):
         pdf_contents = pdf_file.read()
 
         # Open the PDF document from the stream
-        pdf_document = fitz.open(stream=pdf_contents, filetype="pdf")
+        pdf_document = pymupdf.open(stream=pdf_contents, filetype="pdf")
 
         for word in words:
             # Calculate the rectangle for redaction using bounding box coordinates
-            rect = fitz.Rect(
+            rect = pymupdf.Rect(
                 word["pdfBbox"]["x"],  # x0
                 word["pdfBbox"]["y"],  # y0
                 word["pdfBbox"]["width"] + word["pdfBbox"]["x"],  # x1

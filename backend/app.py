@@ -4,7 +4,7 @@ import json
 import os
 import tempfile
 
-import pyminizip
+import pyzipper
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
@@ -19,7 +19,7 @@ app = Flask(__name__)
 CORS(app, methods="*", origins="*")
 
 
-@app.route("/api/redact", methods=["POST"])
+@app.route("/redact", methods=["POST"])
 def redact_text():
     pdf_file = request.files["pdf"]
     level = request.form.get("level")
@@ -31,14 +31,14 @@ def redact_text():
     return jsonify(redactions)
 
 
-@app.route("/api/redact-image", methods=["POST"])
+@app.route("/redact-image", methods=["POST"])
 def redact_image():
     image_file = request.files["image"]
     base64 = image.detect_and_blur_faces_and_text(image_file)
     return jsonify({"image": base64})
 
 
-@app.route("/api/redact-pdf", methods=["POST"])
+@app.route("/redact-pdf", methods=["POST"])
 def redact_pdf():
     pdf_file = request.files["pdf"]
     words = json.loads(request.form["words"])
@@ -46,21 +46,21 @@ def redact_pdf():
     return jsonify({"pdf": base64})
 
 
-@app.route("/api/redact-video", methods=["POST"])
+@app.route("/redact-video", methods=["POST"])
 def redact_video():
     video_file = request.files["video"]
     base64 = video.process_video(video_file.read())
     return jsonify({"video": base64})
 
 
-@app.route("/api/ocr", methods=["POST"])
+@app.route("/ocr", methods=["POST"])
 def ocr_pdf():
     pdf_file = request.files["pdf"]
     base64 = document.ocr(pdf_file)
     return jsonify({"pdf": base64})
 
 
-@app.route("/api/zip", methods=["POST"])
+@app.route("/zip", methods=["POST"])
 def zip_files():
     # Get the list of files from the request
     uploaded_files = request.files.getlist(
@@ -93,15 +93,17 @@ def zip_files():
     with tempfile.NamedTemporaryFile(delete=False) as zip_temp_file:
         zip_output_path = zip_temp_file.name  # Store the temporary zip file path
 
-    # Perform the zipping operation using pyminizip with optional password protection
-    if len(password) == 0:
-        pyminizip.compress_multiple(
-            file_paths, None, file_names[0], "", compression_level
-        )
-    else:
-        pyminizip.compress_multiple(
-            file_paths, None, file_names[0], password, compression_level
-        )
+    # Perform the zipping operation using pyzipper with optional password protection
+
+    with pyzipper.AESZipFile(
+        zip_output_path, "w", compression=pyzipper.ZIP_DEFLATED, encryption=pyzipper.WZ_AES
+    ) as zip_file:
+        if password:
+            zip_file.setpassword(password.encode("utf-8"))
+
+        for file_path, file_name in zip(file_paths, file_names):
+            zip_file.write(file_path, arcname=file_name)
+
 
     # Read the zipped file and encode it in base64
     with open(zip_output_path, "rb") as zip_file:
@@ -118,4 +120,4 @@ def zip_files():
 
 
 if __name__ == "__main__":
-    app.run(debug=ENVIRONMENT == "development", port=PORT)
+    app.run(debug=ENVIRONMENT == "development", port=5000)

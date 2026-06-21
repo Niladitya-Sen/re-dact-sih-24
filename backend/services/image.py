@@ -44,7 +44,9 @@ def detect_and_blur_faces_and_text(image_file):
             image = blur_area(image, int(x1), int(y1), w, h)
 
     # Use Tesseract to detect text areas
-    text_data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT)
+    text_data = pytesseract.image_to_data(
+        image=image, lang="eng", nice=1, output_type=pytesseract.Output.DICT
+    )
 
     t = " ".join(text_data["text"])
 
@@ -53,8 +55,6 @@ def detect_and_blur_faces_and_text(image_file):
     words = text.get_words_to_redact(t)
 
     t = " ".join(words)
-
-    print("Words for Redaction", t, end="\n\n")
 
     # Blur detected text areas
     for i in range(len(text_data["text"])):

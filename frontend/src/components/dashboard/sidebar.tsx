@@ -3,10 +3,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { CgLoadbarDoc } from "react-icons/cg";
 import { GoHomeFill } from "react-icons/go";
-import { GrDocumentTransfer } from "react-icons/gr";
-import { IoRocketOutline, IoSettingsOutline } from "react-icons/io5";
 import { buttonVariants } from "../ui/button";
 
 export default function Sidebar() {
@@ -15,7 +12,7 @@ export default function Sidebar() {
   return (
     <aside className="bg-white h-screen max-h-screen flex flex-col max-w-[230px] w-fit md:w-full">
       <Image
-        src="/redact/assets/images/logo-full.svg"
+        src="/assets/images/logo-full.svg"
         alt="Logo"
         width={200}
         height={50}
@@ -29,7 +26,7 @@ export default function Sidebar() {
               [buttonVariants({ variant: "secondary" })]:
                 pathname !== "/dashboard",
             },
-            "rounded-lg justify-center h-10 w-10 md:w-full md:justify-start gap-4 p-0 md:px-4 md:py-6"
+            "rounded-lg justify-center h-10 w-10 md:w-full md:justify-start gap-4 p-0 md:px-4 md:py-6",
           )}
         >
           <GoHomeFill size={20} />
